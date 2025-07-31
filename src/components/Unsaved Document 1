@@ -1,0 +1,18 @@
+import React, { useState } from 'react';
+import SettingsSidebar from './components/SettingsSidebar';
+import SidebarToggle from './components/SidebarToggle';
+
+export default function SettingsLayout({ children }) {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  return (
+    <div className="min-h-screen flex">
+      <SidebarToggle onClick={() => setSidebarOpen(true)} />
+      <SettingsSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <main className="flex-1 ml-0 md:ml-64 p-4">
+        {children}
+      </main>
+    </div>
+  );
+}
+

@@ -3,9 +3,6 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  server: {
-    host: true,
-    port: 5173,
-  },
+  base: '/Beecorp_settings_page/', // <-- important for GitHub Pages  
 });
 

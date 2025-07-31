@@ -6,10 +6,12 @@ import DeleteAccountForm from '../components/DeleteAccountForm';
 import DeletedMedia from '../components/DeletedMedia';
 import AnimatedSection from '../components/AnimatedSection';
 import SettingsSidebar from '../components/SettingsSidebar';
+import SidebarToggle from '../components/SidebarToggle';
 
 export default function SettingsPage() {
   return (
-    <div className="flex">
+     <div>       
+{children}
       {/* Sidebar */}
       <SettingsSidebar />
 

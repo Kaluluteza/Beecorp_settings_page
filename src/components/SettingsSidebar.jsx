@@ -1,16 +1,26 @@
 // src/components/SettingsSidebar.jsx
 import React, { useState } from 'react';
-import { ChevronDown, ChevronRight, Settings, Search, BookOpen } from 'lucide-react';
+import { ChevronDown, ChevronRight, Settings, Search, BookOpen, X } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
-export default function SettingsSidebar() {
+export default function SettingsSidebar({ isOpen, onClose }) {
   const [generalOpen, setGeneralOpen] = useState(true);
   const location = useLocation();
 
   const isActive = (path) => location.pathname === path;
 
   return (
-    <aside className="fixed top-0 left-0 h-full w-64 bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-100 shadow-lg overflow-y-auto">
+    <aside
+      className={`fixed top-0 left-0 h-full w-64 bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-100 shadow-lg overflow-y-auto transform transition-transform duration-300 z-40
+      ${isOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}
+    >
+      {/* Close Button for Mobile */}
+      <div className="md:hidden flex justify-end p-4">
+        <button onClick={onClose}>
+          <X className="w-5 h-5 text-zinc-800 dark:text-zinc-100" />
+        </button>
+      </div>
+
       <div className="p-6 border-b border-zinc-200 dark:border-zinc-700 flex items-center space-x-2">
         <Settings className="w-5 h-5" />
         <h2 className="text-lg font-semibold">Settings</h2>
@@ -28,38 +38,22 @@ export default function SettingsSidebar() {
 
         {generalOpen && (
           <ul className="ml-2 mt-2 space-y-2 text-sm">
-            <li>
-              <Link
-                to="/settings/edit-password"
-                className={`${isActive('/settings/edit-password') ? 'text-blue-600 font-semibold' : 'hover:text-blue-500'} block`}
-              >
-                Edit Password
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/settings/email"
-                className={`${isActive('/settings/email') ? 'text-blue-600 font-semibold' : 'hover:text-blue-500'} block`}
-              >
-                Email Settings
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/settings/delete"
-                className={`${isActive('/settings/delete') ? 'text-blue-600 font-semibold' : 'hover:text-blue-500'} block`}
-              >
-                Delete Account
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/settings/deleted-media"
-                className={`${isActive('/settings/deleted-media') ? 'text-blue-600 font-semibold' : 'hover:text-blue-500'} block`}
-              >
-                Deleted Media
-              </Link>
-            </li>
+            {[
+              ['Edit Password', '/settings/edit-password'],
+              ['Email Settings', '/settings/email'],
+              ['Delete Account', '/settings/delete'],
+              ['Deleted Media', '/settings/deleted-media'],
+            ].map(([label, path]) => (
+              <li key={path}>
+                <Link
+                  to={path}
+                  className={`${isActive(path) ? 'text-blue-600 font-semibold' : 'hover:text-blue-500'} block`}
+                  onClick={onClose} // close menu on mobile after clicking link
+                >
+                  {label}
+                </Link>
+              </li>
+            ))}
           </ul>
         )}
       </div>
